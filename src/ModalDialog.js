@@ -6,7 +6,6 @@
  * 
  * @param {Object} options  An object containing the dependencies 
  *                          for the ModalFocus class.
- *                          Requires you to pass in an isFocusable function
  */
 export default function ModalDialogFactory({
     hasBackdrop = () => false, // If truthy, this needs to return an ElementNode.
