@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script type="module" src="./src/index.js"></script>
+
+    <style>
+
+        modal-controller {
+            visibility: hidden;
+        }
+    
+        modal-dialog {
+            padding: 2em;
+            background-color: white;
+        }
+
+        *:focus {
+            outline: 2px solid gold;
+        }
+
+        .modal-dialog-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s .25s, opacity .25s;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .modal-dialog-backdrop--active {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity .25s;
+        }
+
+    </style>
+    <title>Modal test</title>
+</head>
+<body>
+    <p>Some content</p>
+    <button id="activate" data-modal-trigger="my-modal">Activate Modal</button>
+    <modal-controller>
+        <modal-dialog id="my-modal" role="dialog" aria-labelledby="modal-title">
+            <h2 tabindex="-1" id="modal-title">Dialog 1</h2>
+            <button>It has interactive content</button>
+
+            <p>Some paragraphs with <a href="http://example.com">links</a>.</p>
+
+            <button data-modal-trigger="my-other-modal">Show another button</button>
+            <button data-modal-replace="my-other-modal">Replace with another button</button>
+
+            <button data-modal-dismiss>Close</button>
+        </modal-dialog>
+
+        <modal-dialog id="my-other-modal" role="dialog" aria-labelledby="other-modal-title">
+            <h2 tabindex="-1" id="other-modal-title">Dialog 2</h2>
+            
+            <button>It has interactive content</button>
+
+            <p>Some paragraphs with <a href="http://example.com">links</a>.</p>
+
+            <button data-modal-replace="my-third-modal">Replace with another</button>
+
+            <button data-modal-dismiss>Close</button>
+        </modal-dialog>
+
+        <modal-dialog id="my-third-modal" role="dialog" aria-labelledby="third-modal-title">
+            <h2 tabindex="-1" id="third-modal-title">Dialog 3 (replaced)</h2>
+
+            <p>Some paragraphs with text.</p>
+
+            <button data-modal-dismiss>Close</button>
+        </modal-dialog>
+    </modal-controller>
+
+    <script>
+        const controller = document.querySelector('modal-controller');
+        document.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-modal-trigger]');
+            if (trigger) {
+                const modalId = trigger.dataset.modalTrigger;
+                controller.open(modalId, trigger);
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-modal-replace]');
+            if (trigger) {
+                const modalId = trigger.dataset.modalReplace;
+                controller.replace(modalId);
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const trigger = event.target.closest('[data-modal-dismiss]');
+            if (trigger) {
+                controller.close();
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

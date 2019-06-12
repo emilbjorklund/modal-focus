@@ -1,0 +1,35 @@
+{
+  "name": "modal-focus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "jest": "^24.8.0",
+    "jest-puppeteer": "^4.2.0",
+    "puppeteer": "^1.17.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "local-web-server": "^3.0.0"
+  },
+  "scripts": {
+    "start": "ws --port 4033 --open",
+    "testserve": "ws --port 4033",
+    "jest": "jest --watchAll",
+    "test": "concurrently \"npm run testserve\" \"npm run jest\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emilbjorklund/modal-focus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emilbjorklund/modal-focus/issues"
+  },
+  "homepage": "https://github.com/emilbjorklund/modal-focus#readme",
+  "jest": {
+    "preset": "jest-puppeteer"
+  }
+}
