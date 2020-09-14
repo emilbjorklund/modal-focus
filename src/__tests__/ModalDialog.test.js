@@ -3,14 +3,14 @@ describe('ModalDialog', () => {
         await page.goto('http://localhost:4033');
     })
 
-    it('show modal 1 when clicking button', async () => {
+    it('shows modal 1 when clicking button', async () => {
         await expect(page).toClick('button', 'Activate Modal');
         await expect(page).toMatchElement('modal-dialog#my-modal', {
             visible: true
         });
     });
 
-    it('show modal 1, then modal 2 when clicking button sequence', async () => {
+    it('shows modal 1, then modal 2 when clicking button sequence', async () => {
         await expect(page).toClick('button', 'Activate Modal');
         await expect(page).toMatchElement('modal-dialog#my-modal', {
             visible: true
@@ -24,9 +24,21 @@ describe('ModalDialog', () => {
         });
     });
 
-    it('focus opener button after closing first modal', async () => {
+    it('focuses opener button after closing first modal using ESC key', async () => {
         await expect(page).toClick('button', 'Activate Modal');
-        await expect(page).toClick('button[data-dismiss-modal]');
-        await expect(page).toMatchElement('button[data-modal-trigger="my-modal"]:focus');
+        await page.keyboard.up('Escape');
+        await expect(page).toMatchElement('button#activate:focus', {
+            polling: 'raf'
+        });
+    });
+
+    it('focuses opener button after closing first modal using button', async () => {
+        await expect(page).toClick('button#activate');
+        await expect(page).toMatchElement('button[data-modal-dismiss]');
+        await page.waitForTimeout(500);
+        await page.click('button[data-modal-dismiss]');
+        await expect(page).toMatchElement('button#activate:focus', {
+            polling: 'raf'
+        });
     });
 })
